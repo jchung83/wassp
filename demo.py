@@ -31,9 +31,7 @@ browser.get('https://web.whatsapp.com/')
 for group in groups:
     search_xpath = '//div[@contenteditable="true"][@data-tab="3"]'
 
-    search_box = WebDriverWait(browser, 500).until(
-        EC.presence_of_element_located((By.XPATH, search_xpath))
-    )
+    search_box = WebDriverWait(browser, 500).until(EC.presence_of_element_located((By.XPATH, search_xpath)))
 
     search_box.clear()
 
@@ -41,16 +39,31 @@ for group in groups:
 
     pyperclip.copy(group)
 
-    search_box.send_keys(Keys.SHIFT, Keys.INSERT)  # Keys.CONTROL + "v"
+    search_box.send_keys(Keys.COMMAND +"v" + Keys.RETURN)  # Keys.CONTROL + "v"  # INGRESA CONTACTO Y LO SELECCIONA
 
     time.sleep(2)
+
+    
+
 
     group_xpath = f'//span[@title="{group}"]'
     group_title = browser.find_element_by_xpath(group_xpath)
 
     group_title.click()
 
-    time.sleep(1)
+
+
+    time.sleep(4)
+
+    #### for para caprturar textos y actualizarlos cada 10 segundos 
+    for i in range (1000000):
+        text_box = browser.find_element(By.CLASS_NAME, "y8WcF") # IDENTIFICA CAJA DE TEXTO
+        a= text_box.text
+        print(str(a))
+        time.sleep(10)
+        print( "esta chat es el numero  "  + str(i))
+
+    #browser.execute_script( "arguments[0].scrollIntoView();", text_box); # SCROLLEA HACIA LA BASE
 
     input_xpath = "//body/div[@id='app']/div[1]/div[1]/div[4]/div[1]/footer[1]/div[1]/div[1]/span[2]/div[1]/div[2]/div[1]/div[1]"
     input_box = browser.find_element_by_xpath(input_xpath)
