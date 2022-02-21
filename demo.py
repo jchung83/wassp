@@ -9,6 +9,7 @@ import sys
 from config import *
 import re
 
+
 from string import *
 
 try:
@@ -48,45 +49,42 @@ for group in groups:
     group_xpath = f'//span[@title="{group}"]'
     group_title = browser.find_element_by_xpath(group_xpath)
     group_title.click()
-    time.sleep(4)
-
-
-    #### for para caprturar textos y actualizarlos cada 10 segundos 
+    time.sleep(4)    
+    
     while True:
+        print("inicia while")
+        
         text_box = browser.find_element(By.CLASS_NAME, "y8WcF") # IDENTIFICA CAJA DE TEXTO
-        a= text_box.text # variable que captura todo el texto del chat
-        #print("######   "+  str(a) +"  #######")
-
+        a= text_box.text # variable que captura todo el texto del chat  
+       
         last_line = a.strip().split("\n")[-2] # captura solo la ultima linea digitada
-
         print( "esta es la ultima linea  "+ last_line)
-        time.sleep(15) # esta linea es una pausa de espera para ver que se captura comando
+        time.sleep(5) # esta linea es una pausa de espera para ver que se captura comando
         
 
         try:
 
-         comando = re.search( r"000", str(a))
+         comando = re.search( r"777", str(last_line))
          #print(comando)
-         #print(comando.group(0)) #imprime solo la palabra
+         print(comando.group(0)) #imprime solo la palabra
+         cmd = comando.group(0)
         except:
          continue
         
         if comando:
-          print( "enviar mensaje ##########")
-
-          input_xpath = "//body/div[@id='app']/div[1]/div[1]/div[4]/div[1]/footer[1]/div[1]/div[1]/span[2]/div[1]/div[2]/div[1]/div[1]"
-          input_box = browser.find_element(By.XPATH, input_xpath) 
+          print( "comando existe")
+         
+          input_xpath = "_1LbR4" #//body/div[@id='app']/div[1]/div[1]/div[4]/div[1]/footer[1]/div[1]/div[1]/span[2]/div[1]/div[2]/div[1]/div[1]"
+          print( "localiza caja de envio de texto")
+          input_box = browser.find_element(By.CLASS_NAME, input_xpath) 
           pyperclip.copy(msg)
+          print("copia mensaje")
           input_box.send_keys(Keys.CONTROL +"v")   # Keys.CONTROL + "v"
-          browser.find_element(By.CLASS_NAME, "_4sWnG").click()
+          print("pega mensaje")
+          browser.find_element(By.XPATH, "/html[1]/body[1]/div[1]/div[1]/div[1]/div[4]/div[1]/footer[1]/div[1]/div[1]/span[2]/div[1]/div[2]/div[2]/button[1]" ).click()
+          print( "hace clic para enviar mensaje")
           #input_box.send_keys(Keys.ENTER)
+          print( "############# se envio mensaje ############# ")
 
-          continue
-
-
-
-
-        time.sleep(1)
-
-        #print( "esta chat es el numero  "  + str(i))
+      
    
